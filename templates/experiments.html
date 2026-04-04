@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Experiments</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- ☰ Hamburger -->
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <h2>⚡ Lab AI</h2>
+        <button
+          onclick="
+            goToDashboard();
+            closeMenu();
+          "
+        >
+          🏠 Dashboard
+        </button>
+        <button
+          onclick="
+            goToChatbot();
+            closeMenu();
+          "
+        >
+          💬 Chatbot
+        </button>
+        <button
+          onclick="
+            goToViva();
+            closeMenu();
+          "
+        >
+          🎤 Viva
+        </button>
+        <button
+          onclick="
+            goToExperiments();
+            closeMenu();
+          "
+        >
+          📄 Experiments
+        </button>
+      </div>
+
+      <!-- Main Content -->
+      <div class="chat-section">
+        <h2 style="color: #38bdf8">📄 Experiments</h2>
+        <p style="color: #94a3b8">Download your lab records</p>
+
+        <div class="card-container">
+          <div class="card">
+            <h3>Comparator</h3>
+            <a
+              href="/static/files/pn_junction_diode.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Colpitt Oscillator</h3>
+            <a
+              href="/static/files/half_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Astable Multivibrator</h3>
+            <a
+              href="https://drive.google.com/uc?export=download&id=1GgOkh1MI2i2Ff7KD4hmLO7q2teMWcZrA"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+
+          <div class="card">
+            <h3>Adders and Subtractors</h3>
+            <a
+              href="/static/files/full_wave_rectifier.pdf"
+              class="download-btn"
+              download
+            >
+              Download 📥
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Scripts -->
+    <script>
+      // Sidebar toggle (mobile)
+      function toggleMenu() {
+        document.querySelector(".sidebar").classList.toggle("active");
+      }
+
+      // Navigation
+      function goToDashboard() {
+        window.location.href = "/dashboard";
+      }
+
+      function goToChatbot() {
+        window.location.href = "/chatbot";
+      }
+
+      function goToViva() {
+        window.location.href = "/viva";
+      }
+
+      function goToExperiments() {
+        window.location.href = "/experiments";
+      }
+
+      function closeMenu() {
+        document.querySelector(".sidebar").classList.remove("active");
+      }
+    </script>
+  </body>
+</html>

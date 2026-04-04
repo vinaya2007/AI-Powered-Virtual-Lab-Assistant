@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Select Department</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-container">
+      <h2>Select Your Department</h2>
+
+      <div class="card-container">
+        <div class="card" onclick="goToYear('ece')">
+          <h3>ECE</h3>
+          <p>Electronics & Communication</p>
+        </div>
+
+        <div class="card disabled">
+          <h3>CSE</h3>
+          <p>Coming Soon</p>
+        </div>
+
+        <div class="card disabled">
+          <h3>MECH</h3>
+          <p>Coming Soon</p>
+        </div>
+
+        <div class="card disabled">
+          <h3>EEE</h3>
+          <p>Coming Soon</p>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>© 2026 AI Virtual Lab Assistant | ECE Department</p>
+      <p>Built with Python + AI</p>
+    </footer>
+    <script>
+      function goToYear(dept) {
+        window.location.href = "/year?dept=" + dept;
+      }
+    </script>
+  </body>
+</html>

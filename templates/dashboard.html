@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page-container">
+      <h2>Welcome to Your Dashboard</h2>
+      <p>Choose what you want to do</p>
+
+      <div class="card-container">
+        <!-- Chatbot -->
+        <div class="card" onclick="goToChatbot()">
+          <h3>💬 Chatbot</h3>
+          <p>Ask doubts & learn experiments</p>
+        </div>
+
+        <!-- Experiments -->
+        <div class="card" onclick="showExperiments()">
+          <h3>📄 Experiments</h3>
+          <p>View & download experiment records</p>
+        </div>
+
+        <!-- Viva -->
+        <div class="card" onclick="startViva()">
+          <h3>🎤 Viva Mode</h3>
+          <p>Practice viva questions</p>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <p>© 2026 AI Virtual Lab Assistant | ECE Department</p>
+      <p>Built with Python + AI</p>
+    </footer>
+    <script>
+      function goToChatbot() {
+        window.location.href = "/chatbot";
+      }
+      function showExperiments() {
+        window.location.href = "/experiments";
+      }
+      function startViva() {
+        window.location.href = "/viva";
+      }
+    </script>
+  </body>
+</html>
