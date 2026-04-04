@@ -67,12 +67,7 @@ cd lab-assistant
 pip install flask python-dotenv requests
 ```
 
-4. Add your Gemini API key:
-   Create a `.env` file:
-
-```
-GEMINI_API_KEY=your_api_key_here
-```
+4. Add your Gemini API key
 
 5. Run the app:
 
@@ -81,10 +76,6 @@ python app.py
 ```
 
 6. Open in browser:
-
-```
-http://127.0.0.1:5000
-```
 
 ## 🔑 Important Notes
 
@@ -117,4 +108,6 @@ To make lab sessions:
 * Smarter
 * More interactive
 
+📬 Contact 📧 vinayavinodh07@gmail.com 📞 +91 90032 80933
 
+Credits Built by Vinaya V
