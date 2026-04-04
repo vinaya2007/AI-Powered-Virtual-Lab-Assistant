@@ -1,4 +1,4 @@
-🧠 AI-Powered Virtual Lab Assistant
+##  🧠 AI-Powered Virtual Lab Assistant
 
 An interactive web-based assistant designed to help engineering students perform lab experiments efficiently with AI guidance, structured content, and downloadable resources.
 
