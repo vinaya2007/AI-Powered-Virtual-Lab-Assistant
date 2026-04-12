@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 # Load environment variables
 load_dotenv()
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+GEMINI_API_KEY = os.getenv("AIzaSyDlQPgksBnda0DDsmCj68gIHjyX2q8sPWE")
 
 # Load JSON data
 with open("data.json", "r") as f:

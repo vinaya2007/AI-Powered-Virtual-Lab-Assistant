@@ -184,34 +184,55 @@ function scrollToBottom() {
 
 // 🎤 Voice input
 function startVoice() {
+
     if (!('webkitSpeechRecognition' in window)) {
-        alert("Voice recognition not supported");
+        alert("⚠️ Please use Google Chrome");
         return;
     }
 
-    let recognition = new webkitSpeechRecognition();
+    const recognition = new webkitSpeechRecognition();
     recognition.lang = "en-US";
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
     let btn = document.querySelector(".mic-btn");
 
-    if (btn) btn.classList.add("listening");
+    try {
+        recognition.start();
+    } catch (e) {
+        alert("Mic already in use. Try again.");
+        return;
+    }
 
-    recognition.start();
+    if (btn) btn.classList.add("listening");
 
     recognition.onresult = function (event) {
         if (btn) btn.classList.remove("listening");
 
         let transcript = event.results[0][0].transcript;
+
         document.getElementById("userInput").value = transcript;
         sendMessage();
     };
 
-    recognition.onerror = function () {
+    recognition.onerror = function (event) {
         if (btn) btn.classList.remove("listening");
-        alert("Voice error");
+
+        console.error("Voice error:", event.error);
+
+        if (event.error === "not-allowed") {
+            alert("🎤 Microphone permission denied");
+        } else if (event.error === "no-speech") {
+            alert("🎤 No speech detected. Try again.");
+        } else {
+            alert("Voice error: " + event.error);
+        }
+    };
+
+    recognition.onend = function () {
+        if (btn) btn.classList.remove("listening");
     };
 }
-
 
 // ⚡ Quick send
 function quickSend(text) {
