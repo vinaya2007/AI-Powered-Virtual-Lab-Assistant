@@ -47,10 +47,15 @@ def chatbot_page():
 # 💬 Chat API (VERY IMPORTANT)
 @app.route("/chat", methods=["POST"])
 def chat():
-    user_input = request.json.get("message")
+    payload = request.json or {}
+    user_input = payload.get("message", "")
+    selected_experiment = payload.get("experiment")
+    mode = payload.get("mode")
+    current_question = payload.get("current_question")
+    student_answer = payload.get("student_answer")
 
     # safety check
-    if not user_input:
+    if not user_input and mode not in {"viva", "evaluate"}:
         return jsonify({
             "text": "Please enter a message.",
             "image": None,
@@ -58,7 +63,13 @@ def chat():
             "pdf": None
         })
 
-    response = chatbot(user_input)
+    response = chatbot(
+        user_input=user_input,
+        selected_experiment=selected_experiment,
+        mode=mode,
+        current_question=current_question,
+        student_answer=student_answer,
+    )
 
     # ensure all keys exist (important for frontend)
     response.setdefault("text", "")
