@@ -266,8 +266,7 @@
     "pdf": "https://drive.google.com/uc?export=download&id=127_BYXy-zN4U_yvRvUSgCNlMoZkc4kDg",
     "keywords": ["monostable multivibrator", "IC555 timer", "pulse generator"]
   },
-
-  "Inverting Amplifier using LT-spice": {
+  "Inverting Amplifier": {
     "title": "Inverting Amplifier Using LT-Spice",
     "aim": "To design inverting amplifier and verify the output using LT-spice software",
     "components": [
@@ -292,7 +291,7 @@
       "LT-spice simulation",
       "op-amp inverting circuit"
     ]
-  },
+  }, 
   "Non-Inverting Amplifier": {
     "title": "Non-Inverting Amplifier Using LT-Spice",
     "aim": "To design and verify output of non-inverting amplifier using LT-spice",
