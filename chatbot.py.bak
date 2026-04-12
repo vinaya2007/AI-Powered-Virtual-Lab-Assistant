@@ -1,0 +1,254 @@
+import json
+import random
+import os
+import requests
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
+# Load JSON data
+with open("data.json", "r") as f:
+    data = json.load(f)
+
+
+# 🔍 SMART FIND EXPERIMENT (FIXED)
+def find_experiment(user_input):
+    user_input = user_input.lower().strip()
+
+    best_match = None
+    max_score = 0
+
+    for key, exp in data.items():
+        title = exp["title"].lower()
+
+        score = 0
+
+        # ✅ Direct full match
+        if user_input in title:
+            score += 5
+
+        # ✅ Word match (important fix)
+        for word in user_input.split():
+            if word in title:
+                score += 2
+
+        # ✅ Keyword match
+        for keyword in exp.get("keywords", []):
+            if keyword.lower() in user_input:
+                score += 3
+
+        if score > max_score:
+            max_score = score
+            best_match = key
+
+    return best_match
+
+
+# 🧠 Intent detection
+def detect_intent(user_input):
+    user_input = user_input.lower()
+
+    if "aim" in user_input:
+        return "aim"
+    elif "theory" in user_input or "explain" in user_input:
+        return "theory"
+    elif "procedure" in user_input or "steps" in user_input:
+        return "procedure"
+    elif "component" in user_input:
+        return "components"
+    elif "output" in user_input or "result" in user_input:
+        return "output"
+    elif "viva" in user_input:
+        return "viva"
+    elif "connect" in user_input or "connection" in user_input:
+        return "connection"
+    elif "diagram" in user_input or "circuit" in user_input:
+        return "diagram"
+    elif "graph" in user_input:
+        return "graph"
+    else:
+        return "full"
+
+
+# 🤖 Gemini AI (SAFE VERSION)
+def get_gemini_response(user_input):
+    if not GEMINI_API_KEY:
+        return "⚠️ AI feature not configured."
+
+    try:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_API_KEY}"
+
+        prompt = f"""
+You are an Electronics Lab Assistant helping engineering students.
+
+Rules:
+- Answer clearly and simply
+- Focus only on electronics experiments
+- Use bullet points when needed
+- Keep answers short
+
+User question:
+{user_input}
+"""
+
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}]
+        }
+
+        response = requests.post(url, json=payload)
+        result = response.json()
+
+        if "candidates" in result:
+            return result["candidates"][0]["content"]["parts"][0]["text"]
+        else:
+            return "⚠️ AI response failed. Check API key or quota."
+    except:
+        return "⚠️ AI is unavailable right now."
+
+
+# 🎯 MAIN CHATBOT
+def chatbot(user_input):
+    user_input = user_input.lower().strip()
+
+    exp_key = find_experiment(user_input)
+
+    # ❌ If NOT found → SAFE MESSAGE (NO AI FALLBACK)
+    if not exp_key:
+        ai_response = get_gemini_response(user_input)
+
+        return {
+            "text": ai_response,
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    exp = data[exp_key]
+    intent = detect_intent(user_input)
+
+    # 🎯 INTENT HANDLING
+
+    if intent == "aim":
+        return {
+            "text": f"Aim: {exp['aim']}",
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "theory":
+        return {
+            "text": f"Theory: {exp['theory']}",
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "components":
+        return {
+            "text": "Components: " + ", ".join(exp["components"]),
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "procedure":
+        steps = "\n".join([f"{i+1}. {step}" for i, step in enumerate(exp["procedure"])])
+        return {
+            "text": f"Procedure:\n{steps}",
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "output":
+        return {
+            "text": f"Output: {exp['result']}",
+            "image": None,
+            "graph": exp.get("graph"),
+            "pdf": None
+        }
+
+    elif intent == "viva":
+        if "viva" in exp:
+            return {
+                "text": "Viva Question: " + random.choice(exp["viva"]),
+                "image": None,
+                "graph": None,
+                "pdf": None
+            }
+        else:
+            return {
+                "text": "⚠️ No viva questions available for this experiment.",
+                "image": None,
+                "graph": None,
+                "pdf": None
+            }
+
+    elif intent == "connection":
+        if "connections" in exp:
+            for comp, desc in exp["connections"].items():
+                if comp in user_input:
+                    return {
+                        "text": desc,
+                        "image": None,
+                        "graph": None,
+                        "pdf": None
+                    }
+
+        return {
+            "text": "Please specify component (e.g., resistor, diode).",
+            "image": None,
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "diagram":
+        return {
+            "text": f"Circuit diagram for {exp['title']}:",
+            "image": exp.get("image"),
+            "graph": None,
+            "pdf": None
+        }
+
+    elif intent == "graph":
+        return {
+            "text": f"Output graph for {exp['title']}:",
+            "image": None,
+            "graph": exp.get("graph"),
+            "pdf": None
+        }
+
+    else:
+        # 🔥 FULL RESPONSE
+        full_text = f"""
+Title: {exp['title']}
+
+Aim: {exp['aim']}
+
+Theory: {exp['theory']}
+
+Components: {', '.join(exp['components'])}
+
+Procedure:
+{chr(10).join([f"{i+1}. {step}" for i, step in enumerate(exp['procedure'])])}
+
+Result: {exp['result']}
+"""
+
+        return {
+            "text": full_text,
+            "image": exp.get("image"),
+            "graph": exp.get("graph"),
+            "pdf": exp.get("pdf")
+        }
+
+
+# 🧪 TEST MODE
+if __name__ == "__main__":
+    while True:
+        user = input("You: ")
+        response = chatbot(user)
+        print("Bot:", response["text"])
